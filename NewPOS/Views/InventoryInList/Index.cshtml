@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+}
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<!-- Page Heading -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" style="float: left">Received Bags</h6>
+        @*<a style="float: right" class="btn btn-primary" href='@Url.Action("Index", "CustomerInvoice")'>Add Invoice</a>*@
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Supplier Nmae</th>
+                        <th>Reference No</th>
+                        <th>Item Name</th>
+                        <th>U/M</th>
+                        <th>Quantity</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        var ee = null;
+
+        $(document).ready(function () {  
+
+    $('#dataTable').DataTable({
+        "ajax": {
+            "url": 'http://wingsofpride619-001-site1.btempurl.com/api/StockIn/GetStockInDetails',
+            "type": "GET",
+            "datatype": "json",
+        },
+
+        "columns": [
+            { "data": "date", "title": "Date" },
+            { "data": "sup_name", "title": "Supplier Name" },
+            { "data": "referenceNo", "title": "Reference No" },
+            { "data": "inv_name", "title": "Product Name" },
+              { "data": "inv_um", "title": "U/M" }, 
+            { "data": "quantity", "title": "Quantity" }   
+           
+        ]
+
+    });
+
+        })
+
+    </script>
+}

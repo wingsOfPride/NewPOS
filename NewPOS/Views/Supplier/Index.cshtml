@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Supplier</h6>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row">
+
+
+            <div class="col-md-3">
+                <form id="form">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Supplier Code</label>
+                        <input type="text" name="sup_Code" class="form-control">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Name</label>
+                        <input type="text" name="sup_Name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contact No</label>
+                        <input type="text" name="sup_ContactNo" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">TIN</label>
+                        <input type="text" name="sup_Tin" class="form-control">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="text" name="sup_Email" class="form-control">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Address</label>
+                        <textarea rows="4" type="sup_Email" name="sup_Address" class="form-control"> </textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 offset-md-1 col-sm-12">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" style="display:block; overflow-x:auto;">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Contact #</th>
+                                    <th>Tin</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="row col-md-4">
+            <input type="button" id="btn-ser1" class="btn btn-primary" value="Submit">
+        </div>
+
+
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        var dt = null;
+     dt = $('#dataTable').DataTable({
+
+              "ajax": {
+                  "url": 'http://wingsofpride619-001-site1.btempurl.com/api/Supplier/GetSupplier',
+                  "type": "GET",
+                  "datatype": "json"
+  
+            },
+            "columns": [
+                { "data": "sup_Code" },
+                { "data": "sup_Name" },
+                { "data": "sup_Address" },
+                { "data": "sup_Tin" },
+                { "data": "sup_ContactNo" },
+                { "data": "sup_Email" },
+                {
+                    "data": "id", render: function (data) {
+
+                        return '<button type="button" class="btn btn-danger">Edit</button>'
+
+                    }
+                },
+
+
+            ]
+
+
+
+
+        });
+
+        $("#btn-ser1").click(function () {
+            var result = {};
+            var data = JSON.stringify($("#form").serializeArray()); //  <-----------
+            var parse = JSON.parse(data);
+            
+            parse.map(item => {
+                result[item.name] = item.value;
+            })
+              swal({
+            title: "",
+            text: "Are you sure you want to Add ?",
+            icon: "info",
+            buttons: true,
+                })
+                  .then((ifok) => {
+                      if (ifok) {
+                               $("#btn-ser1").attr("disabled", true);
+            
+                $.ajax({
+                url: '@Url.Action("InsertSupplier","Supplier")',
+                data: result,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.response == "1") {
+                        swal("Success", res.message, "success").then(() => {
+                                  dt.ajax.reload();
+                            $('#form')[0].reset();
+                                     $("#btn-ser1").attr("disabled", false);
+                     
+                        });
+                    }
+                        else if (res.response == "2") {
+                        swal("Success", res.message, "info");
+                                     $("#btn-ser1").attr("disabled", false);
+                    }
+                          else if (res.response == "3") {
+                        swal("Success", res.message, "info");
+                                 $("#btn-ser1").attr("disabled", false);
+                    }
+
+
+
+
+                }
+
+
+            })
+                      } else {
+                                   $("#btn-ser1").attr("disabled", false);
+                      }
+           
+
+
+            });
+         
+        });
+
+
+    </script>
+
+
+}

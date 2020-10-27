@@ -1,0 +1,138 @@
+﻿<link href="~/css/toastr.min.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary p-1">Add Product</h6>
+        <div id="message" class="m-0">
+
+        </div>
+
+    </div>
+    <div class="card-body">
+
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <form id="form">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Product Code</label>
+                        <input type="text" id="inv_code" name="inv_code" class="form-control" required>
+                        <p id="fillme"></p>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Product Name</label>
+                        <input type="text" id="inv_name" name="inv_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Unit of Measure</label>
+                        <input type="text" id="inv_um" name="inv_um" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Category</label>
+                        <input type="email" id="inv_category" name="inv_category" class="form-control" aria-describedby="emailHelp">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Brand</label>
+                        <input type="email" id="inv_brand" name="inv_brand" class="form-control" aria-describedby="emailHelp">
+
+                    </div>
+
+
+                    <input data-request-url="@Url.Action("CreateProduct","Product")" type="button" id="btnSubmit" class="btn btn-primary" value="Submit">
+                </form>
+            </div>
+
+            <div class="col-md-8 offset-md-1 col-sm-12">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" style="display:block; overflow-x:auto;">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>UM</th>
+                                    <th>Brand</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="row col-md-4">
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/Product/product.js"></script>
+
+    <script type="text/javascript">
+
+        var dt = null;
+        
+dt = $('#dataTable').DataTable({
+
+    "ajax": {
+        "url": 'http://wingsofpride619-001-site1.btempurl.com/api/Inventory/GetInventory',
+        "type": "GET",
+        "datatype": "json"
+
+    },
+    "columns": [
+        { "data": "inv_code" },
+        { "data": "inv_name" },
+        { "data": "inv_category" },
+        { "data": "inv_um" },
+        { "data": "inv_brand" },
+        {
+            "data": "id", render: function (data) {
+
+                return '<button type="button" class="btn btn-danger">Edit</button>'
+
+            }
+        },
+
+
+    ]
+
+
+
+
+});
+
+
+
+
+    </script>
+
+
+}

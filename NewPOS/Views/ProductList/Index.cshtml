@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<!-- Page Heading -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" style="float: left">List of Products</h6>
+        <a style="float: right" class="btn btn-primary" href='@Url.Action("Index", "Product")'>Add Product</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  
+                </thead>
+                <tfoot>
+                  
+                </tfoot>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/Product/productlist.js"></script>
+    <script type="text/javascript">
+
+
+    </script>
+
+
+}
